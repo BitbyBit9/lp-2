@@ -1,0 +1,55 @@
+import heapq
+
+graph = {
+
+    1: [(4,1), (2,2), (5,4)],
+
+    2: [(1,2), (4,3), (3,3), (6,7)],
+
+    3: [(4,5), (2,3), (6,8)],
+
+    4: [(1,1), (2,3), (3,5), (5,9)],
+
+    5: [(1,4), (4,9)],
+
+    6: [(2,7), (3,8)]
+}
+
+def prim(start):
+
+    visited = set()
+
+    min_heap = [(0, start)]
+
+    cost = 0
+
+    mst = []
+
+    while min_heap:
+
+        weight, node = heapq.heappop(min_heap)
+
+        if node not in visited:
+
+            visited.add(node)
+
+            cost += weight
+
+            if weight != 0:
+
+                mst.append((node, weight))
+
+            for neighbour, w in graph[node]:
+
+                if neighbour not in visited:
+
+                    heapq.heappush(min_heap, (w, neighbour))
+
+    return mst, cost
+
+
+mst, cost = prim(1)
+
+print("MST =", mst)
+
+print("Total Cost =", cost)
